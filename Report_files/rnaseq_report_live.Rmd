@@ -1,0 +1,124 @@
+---
+    title: "RNA-seq Analysis Report"
+    author: "Dario Righelli"
+    date: "`r Sys.Date()`"
+    output: rmarkdown::html_document
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE)
+```
+
+# Loading Counts Data
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/importFunctions.R")
+
+geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))
+
+
+head(geneCounts, 20)
+
+```
+
+```{r eval=FALSE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/importFunctions.R")
+
+
+geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))
+head(geneCounts, 20)
+
+```
+
+## Plot Boxplot on count data
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+
+boxplot(log(geneCounts+1), col=c('red','red','orange','orange','purple','purple'), main='Counts BoxPlot',las=1)
+
+```
+
+# Filtering Low Abundant Features
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+
+fgeneCounts <- 
+NOISeq::filtered.data(dataset=geneCounts, 
+factor=c('D', 'D', 'E', 'E', 'C', 'C'), norm=FALSE, method=3, cv.cutoff=100, cpm=0.5)
+boxplot(log(fgeneCounts+1),col=c('red','red','orange','orange','purple','purple'), 
+main='Counts BoxPlot',las=1)
+
+```
+
+# Normalizing Features Across Samples
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+
+nfgeneCounts <- EDASeq::betweenLaneNormalization(fgeneCounts, which='upper')
+
+```
+
+## Plot PCA on count data
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+
+se <- SummarizedExperiment::SummarizedExperiment((log2(nfgeneCounts)+ 1), 
+colData=S4Vectors::DataFrame(rownames=colnames(nfgeneCounts), 
+condition=c('DEC', 'DEC', 'E2', 'E2', 'CTRL', 'CTRL')))
+DESeq2::plotPCA(DESeq2::DESeqTransform(se))
+
+```
+
+# Differential Expression Analysis
+
+As we saw from the PCA, the groups are well separated, so we can perform a Differential Expression analysis with edgeR.
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/geneFunctions.R")
+
+
+degList <- applyEdgeREx(counts=nfgeneCounts, factors=c('DEC', 'DEC', 'E2', 'E2', 'UNTR', 'UNTR'), contrasts=c('DEC - UNTR', 'E2 - UNTR'),p.threshold=1)
+
+```
+
+## MA-Plot
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
+
+
+MAedgeRMAPlotEx(degList=degList)
+
+```
+
+
+## Volcano-Plot DEC-UNTR
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
+
+
+VolcanoPlot(degs=degList[[1]])
+
+```
+
+## Volcano-Plot E2-UNTR
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
+
+
+VolcanoPlot(degs=degList[[2]])
+
+```
+
+# Session Info
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+
+sessionInfo()
+
+```
+
