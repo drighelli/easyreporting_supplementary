@@ -53,6 +53,21 @@ in the data analysis. Moreover, *easyreporting* can be also used by developers t
 automatically trace the analysis steps within Graphical User Interfaces (GUIs).
 
 # General Description
+
+You can also find additional files of this work at the following link such as:
+
+[https://github.com/drighelli/easyreporting_supplementary](https://github.com/drighelli/easyreporting_supplementary)
+
++ this document
+  + Rmd file
+  + Pdf file
+  + Tex file (produced by rmakrdown)
++ the files needed to produce the report described in our work
+  + R file with the RNA-seq analysis made using easyreporting
+  + Rmd report file produced by easyreporting
+  + Pdf file of the Rmd compiled report 
+ 
+
 ## Package Installation 
 
 *easyreporting* is available on Bioconductor since version 3.11 (R>=4.0).

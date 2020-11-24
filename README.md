@@ -1,3 +1,11 @@
+**Easyreporting** is a R/Bioconductor package which, if implemented inside other software,
+allows to equipe them with a Reproducible Research layer for generating HTML documents
+within all the performed and traced code.
+
+Find it at: 
+
+https://bioconductor.org/packages/release/bioc/html/easyreporting.html
+
 This repository stores the Supplementary Documents for the easyreporting package 
 paper.
 
