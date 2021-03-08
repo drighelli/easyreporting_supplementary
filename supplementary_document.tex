@@ -1,39 +1,46 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[]{article}
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            pdftitle={Supplementary Materials for easyreporting},
-            pdfauthor={Dario Righelli; Claudia Angelini},
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  pdftitle={Supplementary Materials for easyreporting},
+  pdfauthor={Dario Righelli; Claudia Angelini},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -75,7 +82,7 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -84,41 +91,53 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{float}
+\usepackage{caption}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
+\title{Supplementary Materials for easyreporting}
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\usepackage{float}
-\usepackage{caption}
-
-\title{Supplementary Materials for easyreporting}
-\providecommand{\subtitle}[1]{}
 \subtitle{A Bioconductor package for implementing reproducible research}
-\author{Dario Righelli\footnote{Istituto per le Applicazioni del Calcolo ``M.
-  Picone'' - Consiglio Nazionale delle Ricerche} \and Claudia Angelini\footnote{Istituto per le Applicazioni del Calcolo ``M.
-  Picone'' - Consiglio Nazionale delle Ricerche}}
-\date{2020-11-29}
+\author{Dario Righelli\footnote{Istituto per le Applicazioni del Calcolo
+  ``M. Picone'' - Consiglio Nazionale delle Ricerche} \and Claudia
+Angelini\footnote{Istituto per le Applicazioni del Calcolo ``M. Picone''
+  - Consiglio Nazionale delle Ricerche}}
+\date{2021-03-08}
 
 \begin{document}
 \maketitle
@@ -198,16 +217,16 @@ such as:
 \subsection{Package Installation}\label{package-installation}}
 
 \emph{easyreporting} is available on Bioconductor since version 3.11
-(R\textgreater{}=4.0).
+(R\textgreater=4.0).
 
 To install it, please execute the following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\KeywordTok{requireNamespace}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\DataTypeTok{quietly =} \OtherTok{TRUE}\NormalTok{))}
-    \KeywordTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"BiocManager"}\NormalTok{)}
 
-\NormalTok{BiocManager}\OperatorTok{::}\KeywordTok{install}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{)}
+\NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -217,7 +236,7 @@ command
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{) }
+\FunctionTok{library}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -299,7 +318,7 @@ two replicates for each of the three conditions:
   UNTR (control samples)
 \end{itemize}
 
-See {[}1{]} for more details.
+See Costa et al. (2017) for more details.
 
 A typical RNA-seq analysis starts from the mapping of the FASTQ
 sequences to a reference genome, followed by the gene expression
@@ -347,14 +366,29 @@ optional.
 \hypertarget{cc1-code-side}{%
 \subsubsection{CC1 code side}\label{cc1-code-side}}
 
-To initialize the report, it can be used the following code
+To initialize the report, it can be used the following code.
+
+We provide the possibility to add more than one author with some
+additional information associated.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{)}
-\NormalTok{proj.path <-}\StringTok{ }\KeywordTok{file.path}\NormalTok{(}\KeywordTok{getwd}\NormalTok{(), }\StringTok{"rnaseq_report"}\NormalTok{)}
-\NormalTok{bioEr <-}\StringTok{ }\KeywordTok{easyreporting}\NormalTok{(}\DataTypeTok{filenamePath=}\NormalTok{proj.path, }\DataTypeTok{title=}\StringTok{"RNA-seq Analysis Report"}\NormalTok{,}
-                       \DataTypeTok{author=}\KeywordTok{c}\NormalTok{(}\StringTok{"Dario Righelli"}\NormalTok{))}
+\FunctionTok{library}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{)}
+\NormalTok{proj.path }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(}\FunctionTok{getwd}\NormalTok{(), }\StringTok{"rnaseq\_report"}\NormalTok{)}
+\NormalTok{bioEr }\OtherTok{\textless{}{-}} \FunctionTok{easyreporting}\NormalTok{(}\AttributeTok{filenamePath=}\NormalTok{proj.path, }\AttributeTok{title=}\StringTok{"RNA{-}seq Analysis Report"}\NormalTok{,}
+                       \AttributeTok{author=}\FunctionTok{c}\NormalTok{(}
+                           \FunctionTok{person}\NormalTok{(}\AttributeTok{given=}\StringTok{"Dario"}\NormalTok{, }\AttributeTok{family=}\StringTok{"Righelli"}\NormalTok{, }
+                                  \AttributeTok{email=}\StringTok{"fake\_email@gmail.com"}\NormalTok{,}
+                                  \AttributeTok{comment=}\FunctionTok{c}\NormalTok{(}\AttributeTok{ORCID=}\StringTok{"ORCIDNUMBER"}\NormalTok{, }
+                                            \AttributeTok{url=}\StringTok{"www.fakepersonalurl.com"}\NormalTok{,}
+                                            \AttributeTok{affiliation=}\StringTok{"Institute of Applied Mathematics, CNR, Naples, IT"}\NormalTok{, }
+                                            \AttributeTok{affiliation\_url=}\StringTok{"www.fakeurl.com"}\NormalTok{)),}
+                           \FunctionTok{person}\NormalTok{(}\AttributeTok{given=}\StringTok{"Claudia"}\NormalTok{, }\AttributeTok{family=}\StringTok{"Angelini"}\NormalTok{,}
+                                  \AttributeTok{comment=}\FunctionTok{c}\NormalTok{(}\AttributeTok{ORCID=}\StringTok{"ORCIDNUMBER"}\NormalTok{,}
+                                            \AttributeTok{url=}\StringTok{"www.fakepersonalurl.com"}\NormalTok{,}
+                                            \AttributeTok{affiliation=}\StringTok{"Institute of Applied Mathematics, CNR, Naples, IT"}\NormalTok{,}
+                                            \AttributeTok{affiliation\_url=}\StringTok{"www.fakeurl.com"}\NormalTok{))}
+\NormalTok{                       ))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -368,15 +402,23 @@ that define the header and the options CC inside the
 
 \begin{verbatim}
 % ---
-%     title: "bioinfo_report"
-%     author: "Dario Righelli"
-%     date: "2020-11-29"
-%     output: rmarkdown::html_document
-% ---
-% 
-% ```{r, include=FALSE}
-% knitr::opts_chunk$set(eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE)
-% ```
+%    title: "RNA-seq Analysis Report"
+%    author: 
+%      - name: " Dario Righelli fake_email@gmail.com "
+%        orcid_id: ORCIDNUMBER
+%        affiliation: Institute of Applied Mathematics, CNR, Naples, IT
+%        affiliation_url: www.fakeurl.com
+%        url: www.fakepersonalurl.com
+%
+%      - name: " Claudia Angelini"
+%        orcid_id: ORCIDNUMBER
+%        affiliation: Institute of Applied Mathematics, CNR, Naples, IT
+%        affiliation_url: www.fakeurl.com
+%        url: www.fakepersonalurl.com
+%
+%    date: "2021-03-08"
+%    output: distill::distill_article
+%---
 \end{verbatim}
 
 \hypertarget{cc1-report-side}{%
@@ -427,14 +469,14 @@ the CC. For this purpose, the analyst can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Loading Counts Data"}\NormalTok{)}
-\KeywordTok{mkdCodeChunkSt}\NormalTok{(bioEr, }\DataTypeTok{sourceFilesList=}\KeywordTok{system.file}\NormalTok{(}\StringTok{"script/importFunctions.R"}\NormalTok{, }
-                                    \DataTypeTok{package=}\StringTok{"easyreporting"}\NormalTok{), }\DataTypeTok{isComplete=}\OtherTok{TRUE}\NormalTok{)}
-\KeywordTok{mkdVariableAssignment}\NormalTok{(bioEr, }\StringTok{"geneCounts"}\NormalTok{, }\KeywordTok{paste}\NormalTok{(}\StringTok{"as.matrix(importData(system.file('"}\NormalTok{,}
-                            \StringTok{"extdata/BMDC_counts_FeatureCounts.xlsx', "}\NormalTok{,}
-                            \StringTok{"package='easyreporting')))"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{), }\DataTypeTok{show=}\OtherTok{FALSE}\NormalTok{)}
-\KeywordTok{mkdGeneralMsg}\NormalTok{(bioEr, }\StringTok{"head(geneCounts, 20)"}\NormalTok{)}
-\KeywordTok{mkdCodeChunkEnd}\NormalTok{(bioEr)}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Loading Counts Data"}\NormalTok{)}
+\FunctionTok{mkdCodeChunkSt}\NormalTok{(bioEr, }\AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/importFunctions.R"}\NormalTok{, }
+                                    \AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{), }\AttributeTok{isComplete=}\ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{mkdVariableAssignment}\NormalTok{(bioEr, }\StringTok{"geneCounts"}\NormalTok{, }\FunctionTok{paste}\NormalTok{(}\StringTok{"as.matrix(importData(system.file(\textquotesingle{}"}\NormalTok{,}
+                            \StringTok{"extdata/BMDC\_counts\_FeatureCounts.xlsx\textquotesingle{}, "}\NormalTok{,}
+                            \StringTok{"package=\textquotesingle{}easyreporting\textquotesingle{})))"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{), }\AttributeTok{show=}\ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{mkdGeneralMsg}\NormalTok{(bioEr, }\StringTok{"head(geneCounts, 20)"}\NormalTok{)}
+\FunctionTok{mkdCodeChunkEnd}\NormalTok{(bioEr)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -443,13 +485,13 @@ following code that implements the second approach.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(}\DataTypeTok{object=}\NormalTok{bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"geneCounts <- "}\NormalTok{,  }
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(}\AttributeTok{object=}\NormalTok{bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"geneCounts \textless{}{-} "}\NormalTok{,  }
                   \StringTok{"as.matrix(importData(system.file("}\NormalTok{,}
-                  \StringTok{"'extdata/BMDC_counts_FeatureCounts.xlsx', "}\NormalTok{, }
-                  \StringTok{"package='easyreporting')))"}\NormalTok{, }\StringTok{"head(geneCounts, 20)"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{),}
-                  \DataTypeTok{sourceFilesList=}\KeywordTok{system.file}\NormalTok{(}\StringTok{"script/importFunctions.R"}\NormalTok{, }
-                  \DataTypeTok{package=}\StringTok{"easyreporting"}\NormalTok{), }
-                  \DataTypeTok{optionList=}\KeywordTok{makeOptionsList}\NormalTok{(}\DataTypeTok{evalFlag=}\OtherTok{FALSE}\NormalTok{))}
+                  \StringTok{"\textquotesingle{}extdata/BMDC\_counts\_FeatureCounts.xlsx\textquotesingle{}, "}\NormalTok{, }
+                  \StringTok{"package=\textquotesingle{}easyreporting\textquotesingle{})))"}\NormalTok{, }\StringTok{"head(geneCounts, 20)"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{),}
+                  \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/importFunctions.R"}\NormalTok{, }
+                  \AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{), }
+                  \AttributeTok{optionList=}\FunctionTok{makeOptionsList}\NormalTok{(}\AttributeTok{evalFlag=}\ConstantTok{FALSE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -472,16 +514,14 @@ of the report.
  
 %# Loading Counts Data
 %```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-%source("/Library/Frameworks/R.framework/Versions/3.6/
-%Resources/library/easyreporting/script/importFunctions.R")
+%source("importFunctions.R")
 %geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', 
 %package='easyreporting')))
 %head(geneCounts, 20)
 %```
 %
 %```{r eval=FALSE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-%source("/Library/Frameworks/R.framework/Versions/3.6/
-%Resources/library/easyreporting/script/importFunctions.R")
+%source("importFunctions.R")
 %geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', 
 %package='easyreporting')))
 %head(geneCounts, 20)
@@ -496,7 +536,7 @@ depicted in Figure S2.
 
 \begin{figure}[ht]
 
-{\centering \includegraphics[width=0.95\linewidth]{imgs/21} 
+{\centering \includegraphics[width=0.95\linewidth]{imgs/2} 
 
 }
 
@@ -525,10 +565,10 @@ The analyst can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Plot Boxplot on count data"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{2}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\DataTypeTok{message=}\KeywordTok{paste0}\NormalTok{(}\StringTok{"boxplot(log(geneCounts+1),"}\NormalTok{,}
-                        \StringTok{" col=c('red','red','orange','orange','purple','purple'),"}\NormalTok{, }
-                        \StringTok{" main='Counts BoxPlot',las=1)"}\NormalTok{))}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Plot Boxplot on count data"}\NormalTok{, }\AttributeTok{level=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\AttributeTok{message=}\FunctionTok{paste0}\NormalTok{(}\StringTok{"boxplot(log(geneCounts+1),"}\NormalTok{,}
+                        \StringTok{" col=c(\textquotesingle{}red\textquotesingle{},\textquotesingle{}red\textquotesingle{},\textquotesingle{}orange\textquotesingle{},\textquotesingle{}orange\textquotesingle{},\textquotesingle{}purple\textquotesingle{},\textquotesingle{}purple\textquotesingle{}),"}\NormalTok{, }
+                        \StringTok{" main=\textquotesingle{}Counts BoxPlot\textquotesingle{},las=1)"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -586,12 +626,12 @@ The analyst can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Filtering Low Abundant Features"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{1}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(}\DataTypeTok{object=}\NormalTok{bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"fgeneCounts <- "}\NormalTok{,}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Filtering Low Abundant Features"}\NormalTok{, }\AttributeTok{level=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(}\AttributeTok{object=}\NormalTok{bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"fgeneCounts \textless{}{-} "}\NormalTok{,}
               \StringTok{"NOISeq::filtered.data(dataset=geneCounts, "}\NormalTok{,}
-              \StringTok{"factor=c('D', 'D', 'E', 'E', 'C', 'C'), norm=FALSE, method=3, cv.cutoff=100, cpm=0.5)"}\NormalTok{,}
-              \StringTok{"boxplot(log(fgeneCounts+1),col=c('red','red','orange','orange','purple','purple'), "}\NormalTok{,}
-              \StringTok{"main='Counts BoxPlot',las=1)"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+              \StringTok{"factor=c(\textquotesingle{}D\textquotesingle{}, \textquotesingle{}D\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}C\textquotesingle{}, \textquotesingle{}C\textquotesingle{}), norm=FALSE, method=3, cv.cutoff=100, cpm=0.5)"}\NormalTok{,}
+              \StringTok{"boxplot(log(fgeneCounts+1),col=c(\textquotesingle{}red\textquotesingle{},\textquotesingle{}red\textquotesingle{},\textquotesingle{}orange\textquotesingle{},\textquotesingle{}orange\textquotesingle{},\textquotesingle{}purple\textquotesingle{},\textquotesingle{}purple\textquotesingle{}), "}\NormalTok{,}
+              \StringTok{"main=\textquotesingle{}Counts BoxPlot\textquotesingle{},las=1)"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -634,15 +674,15 @@ For the normalization and the PCA, we implemented the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Normalizing Features Across Samples"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{1}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(}\DataTypeTok{object=}\NormalTok{bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"nfgeneCounts <- "}\NormalTok{,}
-              \StringTok{"EDASeq::betweenLaneNormalization(fgeneCounts, which='upper')"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Normalizing Features Across Samples"}\NormalTok{, }\AttributeTok{level=}\DecValTok{1}\NormalTok{)}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(}\AttributeTok{object=}\NormalTok{bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"nfgeneCounts \textless{}{-} "}\NormalTok{,}
+              \StringTok{"EDASeq::betweenLaneNormalization(fgeneCounts, which=\textquotesingle{}upper\textquotesingle{})"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
 
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Plot PCA on count data"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{2}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"se <- SummarizedExperiment((log2(nfgeneCounts)+ 1), "}\NormalTok{,}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Plot PCA on count data"}\NormalTok{, }\AttributeTok{level=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"se \textless{}{-} SummarizedExperiment((log2(nfgeneCounts)+ 1), "}\NormalTok{,}
                 \StringTok{"colData=DataFrame(rownames=colnames(nfgeneCounts), "}\NormalTok{ ,}
-                \StringTok{"condition=c('DEC', 'DEC', 'E2', 'E2', 'CTRL', 'CTRL')))"}\NormalTok{,}
-                \StringTok{"DESeq2::plotPCA(DESeqTransform(se))"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+                \StringTok{"condition=c(\textquotesingle{}DEC\textquotesingle{}, \textquotesingle{}DEC\textquotesingle{}, \textquotesingle{}E2\textquotesingle{}, \textquotesingle{}E2\textquotesingle{}, \textquotesingle{}CTRL\textquotesingle{}, \textquotesingle{}CTRL\textquotesingle{})))"}\NormalTok{,}
+                \StringTok{"DESeq2::plotPCA(DESeqTransform(se))"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -715,14 +755,14 @@ This can be implemented with the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdCodeChunkTitledCommented}\NormalTok{(bioEr, }\DataTypeTok{title=}\StringTok{"Differential Expression Analysis"}\NormalTok{,}
-                \DataTypeTok{codeMsg=}\KeywordTok{paste0}\NormalTok{(}\StringTok{"degList <- applyEdgeREx(counts=nfgeneCounts, "}\NormalTok{,}
-                \StringTok{"factors=c('DEC', 'DEC', 'E2', 'E2', 'UNTR', 'UNTR'), "}\NormalTok{,}
-                \StringTok{"contrasts=c('DEC - UNTR', 'E2 - UNTR'),"}\NormalTok{,}
+\FunctionTok{mkdCodeChunkTitledCommented}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"Differential Expression Analysis"}\NormalTok{,}
+                \AttributeTok{codeMsg=}\FunctionTok{paste0}\NormalTok{(}\StringTok{"degList \textless{}{-} applyEdgeREx(counts=nfgeneCounts, "}\NormalTok{,}
+                \StringTok{"factors=c(\textquotesingle{}DEC\textquotesingle{}, \textquotesingle{}DEC\textquotesingle{}, \textquotesingle{}E2\textquotesingle{}, \textquotesingle{}E2\textquotesingle{}, \textquotesingle{}UNTR\textquotesingle{}, \textquotesingle{}UNTR\textquotesingle{}), "}\NormalTok{,}
+                \StringTok{"contrasts=c(\textquotesingle{}DEC {-} UNTR\textquotesingle{}, \textquotesingle{}E2 {-} UNTR\textquotesingle{}),"}\NormalTok{,}
                 \StringTok{"p.threshold=1)"}\NormalTok{),}
-            \DataTypeTok{commentMsg=}\KeywordTok{paste}\NormalTok{(}\StringTok{"As we saw from the PCA, the groups are well separated, "}\NormalTok{,}
-            \StringTok{"so we can perform a Differential Expression analysis with edgeR."}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{),}
-            \DataTypeTok{sourceFilesList=}\KeywordTok{system.file}\NormalTok{(}\StringTok{"script/geneFunctions.R"}\NormalTok{, }\DataTypeTok{package=}\StringTok{"easyreporting"}\NormalTok{))}
+            \AttributeTok{commentMsg=}\FunctionTok{paste}\NormalTok{(}\StringTok{"As we saw from the PCA, the groups are well separated, "}\NormalTok{,}
+            \StringTok{"so we can perform a Differential Expression analysis with edgeR."}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{),}
+            \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/geneFunctions.R"}\NormalTok{, }\AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -737,8 +777,7 @@ file.
 % As we saw from the PCA, the groups are well separated, 
 % so we can perform a Differential Expression analysis with edgeR.
 % ```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-% source("/Library/Frameworks/R.framework/Versions/3.6/Resources/library/easyreporting/
-% script/geneFunctions.R")
+% source("geneFunctions.R")
 % degList <- applyEdgeREx(counts=nfgeneCounts, 
 % factors=c('DEC', 'DEC', 'E2', 'E2', 'UNTR', 'UNTR'), 
 % contrasts=c('DEC - UNTR', 'E2 - UNTR'), p.threshold=1)
@@ -787,13 +826,10 @@ The user can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\StringTok{"MA Plot of DEGs"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{2}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"for (i in seq_along(degList)) \{ "}\NormalTok{,}
-                            \StringTok{"degenes <- degList[[i]]$FDR < 0.01"}\NormalTok{,}
-            \StringTok{"with(degList[[i]], plot(logCPM, logFC, pch=16, cex=0.2, "}\NormalTok{,}
-            \StringTok{"main=names(degList)[i]))"}\NormalTok{,}
-            \StringTok{"with(degList[[i]], points(logCPM[degenes], logFC[degenes], "}\NormalTok{,}
-            \StringTok{"col='red', pch=16, cex=0.2))\}"}\NormalTok{, }\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+\FunctionTok{mkdCodeChunkTitledCommented}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"MA{-}Plot"}\NormalTok{, }\AttributeTok{level=}\DecValTok{2}\NormalTok{,}
+                                    \AttributeTok{code=}\StringTok{"MAedgeRMAPlotEx(degList=degList)"}\NormalTok{,}
+                                    \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/plotFunctions.R"}\NormalTok{,}
+                                                        \AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -806,9 +842,9 @@ file.
 \begin{verbatim}
 % ## MA Plot of DEGs
 % ```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-% for (i in seq_along(degList)) { degenes <- degList[[i]]$FDR < 0.01
-% with(degList[[i]], plot(logCPM, logFC, pch=16, cex=0.2, main=names(degList)[i]))
-% with(degList[[i]], points(logCPM[degenes], logFC[degenes], col='red', pch=16, cex=0.2))}
+% 
+% source("plotFunctions.R")
+% MAedgeRMAPlotEx(degList=degList)
 % ```
 \end{verbatim}
 
@@ -843,10 +879,10 @@ The user can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mkdTitle}\NormalTok{(bioEr, }\StringTok{"DEGs Venn Diagram"}\NormalTok{, }\DataTypeTok{level=}\DecValTok{2}\NormalTok{)}
-\KeywordTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\DataTypeTok{message=}\KeywordTok{paste}\NormalTok{(}\StringTok{"limma::vennDiagram("}\NormalTok{,}
-                  \StringTok{"limma::vennCounts(cbind(degList[[1]]$FDR < 0.01, "}\NormalTok{,}
-                  \StringTok{"degList[[2]]$FDR < 0.01)), names=c('DEC', 'E2'))"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+\FunctionTok{mkdTitle}\NormalTok{(bioEr, }\StringTok{"DEGs Venn Diagram"}\NormalTok{, }\AttributeTok{level=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"limma::vennDiagram("}\NormalTok{,}
+                  \StringTok{"limma::vennCounts(cbind(degList[[1]]$FDR \textless{} 0.01, "}\NormalTok{,}
+                  \StringTok{"degList[[2]]$FDR \textless{} 0.01)), names=c(\textquotesingle{}DEC\textquotesingle{}, \textquotesingle{}E2\textquotesingle{}))"}\NormalTok{,}\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -882,12 +918,13 @@ depicted in Figure S8.
 \hypertarget{report-compilation}{%
 \subsection{Report Compilation}\label{report-compilation}}
 
-Once the analysis is completed, tha package allows to compile the
+Once the analysis is completed, the package allows to compile the
 produced ``rnaseq\_report.rmd'' report simply by using the
 \texttt{compile()} method. The \texttt{compile} method produces the
-final report (in HTML format) and automatically appends to the report
-end a CC with the sessionInfo() to trace all the package versions used
-for the analysis.
+final report (in the user defined format) and automatically appends to
+the report end a CC with the external available resources previously set
+with the \texttt{addResource} method and another CC with the
+sessionInfo() to trace all the package versions used for the analysis.
 
 \hypertarget{cc9-code-side}{%
 \subsubsection{CC9 code side}\label{cc9-code-side}}
@@ -896,7 +933,8 @@ To compile the report, the analyst can use the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{compile}\NormalTok{(bioEr)}
+\NormalTok{bioEr }\OtherTok{\textless{}{-}} \FunctionTok{addResource}\NormalTok{(bioEr, }\AttributeTok{source=}\StringTok{"GEO"}\NormalTok{, }\StringTok{"GSE60231"}\NormalTok{, }\StringTok{"Transcriptome of BMDC to different antigen delivery systems"}\NormalTok{)}
+\FunctionTok{compile}\NormalTok{(bioEr)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -920,8 +958,8 @@ file.
 \subsubsection{CC9 report side}\label{cc9-report-side}}
 
 The above CC9 code compiles the entire report and automatically adds at
-the end of the report a Session Info section as in the example in Figure
-S9.
+the end of the report the Resource Availability and the Session Info
+sections as in the example in Figure S9.
 
 \begin{figure}[ht]
 
@@ -944,22 +982,24 @@ To run it just run the following code:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{erGUIVolcano}\NormalTok{()}
+\FunctionTok{erGUIVolcano}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{references}{%
-\subsection{References}\label{references}}
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Costa, V., Righelli, D., Russo, F., De Berardinis, P., Angelini, C.,
-  \& D'Apice, L. (2017). Distinct antigen delivery systems induce
-  dendritic cells' divergent transcriptional response: new insights from
-  a comparative and reproducible computational analysis. International
-  journal of molecular sciences, 18(3), 494.
-\end{enumerate}
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-costa2017distinct}{}%
+Costa, Valerio, Dario Righelli, Francesco Russo, Piergiuseppe De
+Berardinis, Claudia Angelini, and Luciana D'Apice. 2017. {``Distinct
+Antigen Delivery Systems Induce Dendritic Cells' Divergent
+Transcriptional Response: New Insights from a Comparative and
+Reproducible Computational Analysis.''} \emph{International Journal of
+Molecular Sciences} 18 (3): 494.
+
+\end{CSLReferences}
 
 \end{document}

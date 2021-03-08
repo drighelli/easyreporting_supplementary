@@ -1,18 +1,31 @@
 ---
     title: "RNA-seq Analysis Report"
-    author: "Dario Righelli"
+    author: 
+      - name: " Dario Righelli fake_email@gmail.com "
+        orcid_id: ORCIDNUMBER
+        affiliation: Institute of Applied Mathematics, CNR, Naples, IT
+        affiliation_url: www.fakeurl.com
+        url: www.fakepersonalurl.com
+
+      - name: " Claudia Angelini"
+        orcid_id: ORCIDNUMBER
+        affiliation: Institute of Applied Mathematics, CNR, Naples, IT
+        affiliation_url: www.fakeurl.com
+        url: www.fakepersonalurl.com
+
     date: "`r Sys.Date()`"
-    output: rmarkdown::html_document
+    output: distill::distill_article
 ---
 
 ```{r global_options, include=FALSE}
-knitr::opts_chunk$set(eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE)
+knitr::opts_chunk$set(eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE)
 ```
 
 # Loading Counts Data
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
 
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/importFunctions.R")
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
+
+source("importFunctions.R")
 
 geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))
 
@@ -21,9 +34,9 @@ head(geneCounts, 20)
 
 ```
 
-```{r eval=FALSE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+```{r eval=FALSE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/importFunctions.R")
+source("importFunctions.R")
 
 
 geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))
@@ -32,7 +45,8 @@ head(geneCounts, 20)
 ```
 
 ## Plot Boxplot on count data
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
 boxplot(log(geneCounts+1), col=c('red','red','orange','orange','purple','purple'), main='Counts BoxPlot',las=1)
@@ -40,19 +54,21 @@ boxplot(log(geneCounts+1), col=c('red','red','orange','orange','purple','purple'
 ```
 
 # Filtering Low Abundant Features
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
-fgeneCounts <- 
-NOISeq::filtered.data(dataset=geneCounts, 
-factor=c('D', 'D', 'E', 'E', 'C', 'C'), norm=FALSE, method=3, cv.cutoff=100, cpm=0.5)
-boxplot(log(fgeneCounts+1),col=c('red','red','orange','orange','purple','purple'), 
-main='Counts BoxPlot',las=1)
+fgeneCounts <- NOISeq::filtered.data(dataset = geneCounts, factor = c("D", 
+    "D", "E", "E", "C", "C"), norm = FALSE, method = 3, cv.cutoff = 100, 
+    cpm = 0.5)
+boxplot(log(fgeneCounts + 1), col = c("red", "red", "orange", 
+    "orange", "purple", "purple"), main = "Counts BoxPlot", las = 1)
 
 ```
 
 # Normalizing Features Across Samples
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
 nfgeneCounts <- EDASeq::betweenLaneNormalization(fgeneCounts, which='upper')
@@ -60,7 +76,8 @@ nfgeneCounts <- EDASeq::betweenLaneNormalization(fgeneCounts, which='upper')
 ```
 
 ## Plot PCA on count data
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
 se <- SummarizedExperiment::SummarizedExperiment((log2(nfgeneCounts)+ 1), 
@@ -72,11 +89,12 @@ DESeq2::plotPCA(DESeq2::DESeqTransform(se))
 
 # Differential Expression Analysis
 
+
 As we saw from the PCA, the groups are well separated, so we can perform a Differential Expression analysis with edgeR.
 
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/geneFunctions.R")
+source("geneFunctions.R")
 
 
 degList <- applyEdgeREx(counts=nfgeneCounts, factors=c('DEC', 'DEC', 'E2', 'E2', 'UNTR', 'UNTR'), contrasts=c('DEC - UNTR', 'E2 - UNTR'),p.threshold=1)
@@ -84,38 +102,38 @@ degList <- applyEdgeREx(counts=nfgeneCounts, factors=c('DEC', 'DEC', 'E2', 'E2',
 ```
 
 ## MA-Plot
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
 
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
+
+source("plotFunctions.R")
 
 
 MAedgeRMAPlotEx(degList=degList)
 
 ```
 
+## DEGs Venn Diagram
 
-## Volcano-Plot DEC-UNTR
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
-VolcanoPlot(degs=degList[[1]])
-
-```
-
-## Volcano-Plot E2-UNTR
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
-
-source("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/easyreporting/script/plotFunctions.R")
-
-
-VolcanoPlot(degs=degList[[2]])
+limma::vennDiagram(
+limma::vennCounts(cbind(degList[[1]]$FDR < 0.01, 
+degList[[2]]$FDR < 0.01)), names=c('DEC', 'E2'))
 
 ```
+
+# Resources Availability
+
+
+|Source|Reference|Description|
+|:--|:--|:--|
+| GEO|GSE60231|Transcriptome of BMDC to different antigen delivery systems|
+
 
 # Session Info
-```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE}
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, include=TRUE, cache=TRUE, collapse=FALSE, purl=TRUE, error=TRUE, message=TRUE, highlight=TRUE, prompt=FALSE, strip.white=TRUE, tidy=FALSE}
 
 
 sessionInfo()
