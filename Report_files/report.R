@@ -15,7 +15,7 @@ bioEr <- easyreporting(filenamePath=proj.path, title="RNA-seq Analysis Report",
                                             url="www.fakepersonalurl.com",
                                             affiliation="Institute of Applied Mathematics, CNR, Naples, IT",
                                             affiliation_url="www.fakeurl.com"))
-                       ))
+                       ), bibfile="ref.bib")
 
 mkdTitle(bioEr, title="Loading Counts Data")
 
@@ -27,10 +27,10 @@ mkdCodeChunkEnd(bioEr)
 
 ## one call CC creation
 mkdCodeChunkComplete(object=bioEr, 
-    code=paste("geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))",
-    "head(geneCounts, 20)", sep="\n"),
-    sourceFilesList=system.file("script/importFunctions.R", 
-                    package="easyreporting"), 
+    code=c(quote(geneCounts <- as.matrix(importData(
+                    system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))),
+                                quote(head(geneCounts, 20))),
+    sourceFilesList=system.file("script/importFunctions.R", package="easyreporting"), 
     optionList=makeOptionsList(evalFlag=FALSE))
 
 mkdTitle(bioEr, title="Plot Boxplot on count data", level=2)

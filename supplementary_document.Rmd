@@ -195,7 +195,11 @@ To initialize the report, it can be used the following code.
 
 We provide the possibility to add more than one author with some additional information associated.
 
-```{r}
+Moreover, it is possible to specify a latex `bib` file with cited references with
+the dedicated argument.
+This file will be processed during the report compilation process.
+
+```{r, eval=FALSE}
 library("easyreporting")
 proj.path <- file.path(getwd(), "rnaseq_report")
 bioEr <- easyreporting(filenamePath=proj.path, title="RNA-seq Analysis Report",
@@ -211,7 +215,7 @@ bioEr <- easyreporting(filenamePath=proj.path, title="RNA-seq Analysis Report",
                                             url="www.fakepersonalurl.com",
                                             affiliation="Institute of Applied Mathematics, CNR, Naples, IT",
                                             affiliation_url="www.fakeurl.com"))
-                       ))
+                       ), bibfile="ref.bib")
 ```
 
 ###  CC1 rmarkdown side
@@ -236,6 +240,7 @@ class and produces the following lines of code that define the header and the op
 %        url: www.fakepersonalurl.com
 %
 %    date: "`r Sys.Date()`"
+%    bibfile: ref.bib
 %    output: distill::distill_article
 %---
 \end{verbatim}
@@ -285,12 +290,13 @@ mkdCodeChunkEnd(bioEr)
 ```
 
 For comparative purposes, the above code can be replaced by the following code that implements the second approach.
+Note that a `c` list of `quote` expressions can be used to specify multiple instructions.
 
 ```{r, eval=FALSE}
-mkdCodeChunkComplete(object=bioEr, message=paste("geneCounts <- ",  
-                  "as.matrix(importData(system.file(",
-                  "'extdata/BMDC_counts_FeatureCounts.xlsx', ", 
-                  "package='easyreporting')))", "head(geneCounts, 20)", sep="\n"),
+mkdCodeChunkComplete(object=bioEr, message=c(quote(geneCounts <-   
+                  as.matrix(importData(system.file(
+                  'extdata/BMDC_counts_FeatureCounts.xlsx', 
+                  package='easyreporting')))), quote(head(geneCounts, 20))),
                   sourceFilesList=system.file("script/importFunctions.R", 
                   package="easyreporting"), 
                   optionList=makeOptionsList(evalFlag=FALSE))
@@ -566,8 +572,8 @@ The user can use the following code.
 ```{r, eval=FALSE}
 
 mkdCodeChunkTitledCommented(bioEr, title="MA-Plot", level=2,
-                                    code="MAedgeRMAPlotEx(degList=degList)",
-                                    sourceFilesList=system.file("script/plotFunctions.R",
+                            code="MAedgeRMAPlotEx(degList=degList)",
+                            sourceFilesList=system.file("script/plotFunctions.R", 
                                                         package="easyreporting"))
 ```
 

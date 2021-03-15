@@ -137,7 +137,7 @@
   ``M. Picone'' - Consiglio Nazionale delle Ricerche} \and Claudia
 Angelini\footnote{Istituto per le Applicazioni del Calcolo ``M. Picone''
   - Consiglio Nazionale delle Ricerche}}
-\date{2021-03-08}
+\date{2021-03-15}
 
 \begin{document}
 \maketitle
@@ -371,6 +371,10 @@ To initialize the report, it can be used the following code.
 We provide the possibility to add more than one author with some
 additional information associated.
 
+Moreover, it is possible to specify a latex \texttt{bib} file with cited
+references with the dedicated argument. This file will be processed
+during the report compilation process.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"easyreporting"}\NormalTok{)}
@@ -388,7 +392,7 @@ additional information associated.
                                             \AttributeTok{url=}\StringTok{"www.fakepersonalurl.com"}\NormalTok{,}
                                             \AttributeTok{affiliation=}\StringTok{"Institute of Applied Mathematics, CNR, Naples, IT"}\NormalTok{,}
                                             \AttributeTok{affiliation\_url=}\StringTok{"www.fakeurl.com"}\NormalTok{))}
-\NormalTok{                       ))}
+\NormalTok{                       ), }\AttributeTok{bibfile=}\StringTok{"ref.bib"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -416,7 +420,8 @@ that define the header and the options CC inside the
 %        affiliation_url: www.fakeurl.com
 %        url: www.fakepersonalurl.com
 %
-%    date: "2021-03-08"
+%    date: "2021-03-15"
+%    bibfile: ref.bib
 %    output: distill::distill_article
 %---
 \end{verbatim}
@@ -481,14 +486,16 @@ the CC. For this purpose, the analyst can use the following code.
 \end{Shaded}
 
 For comparative purposes, the above code can be replaced by the
-following code that implements the second approach.
+following code that implements the second approach. Note that a
+\texttt{c} list of \texttt{quote} expressions can be used to specify
+multiple instructions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mkdCodeChunkComplete}\NormalTok{(}\AttributeTok{object=}\NormalTok{bioEr, }\AttributeTok{message=}\FunctionTok{paste}\NormalTok{(}\StringTok{"geneCounts \textless{}{-} "}\NormalTok{,  }
-                  \StringTok{"as.matrix(importData(system.file("}\NormalTok{,}
-                  \StringTok{"\textquotesingle{}extdata/BMDC\_counts\_FeatureCounts.xlsx\textquotesingle{}, "}\NormalTok{, }
-                  \StringTok{"package=\textquotesingle{}easyreporting\textquotesingle{})))"}\NormalTok{, }\StringTok{"head(geneCounts, 20)"}\NormalTok{, }\AttributeTok{sep=}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{),}
+\FunctionTok{mkdCodeChunkComplete}\NormalTok{(}\AttributeTok{object=}\NormalTok{bioEr, }\AttributeTok{message=}\FunctionTok{c}\NormalTok{(}\FunctionTok{quote}\NormalTok{(geneCounts }\OtherTok{\textless{}{-}}   
+                  \FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{importData}\NormalTok{(}\FunctionTok{system.file}\NormalTok{(}
+                  \StringTok{\textquotesingle{}extdata/BMDC\_counts\_FeatureCounts.xlsx\textquotesingle{}}\NormalTok{, }
+                  \AttributeTok{package=}\StringTok{\textquotesingle{}easyreporting\textquotesingle{}}\NormalTok{)))), }\FunctionTok{quote}\NormalTok{(}\FunctionTok{head}\NormalTok{(geneCounts, }\DecValTok{20}\NormalTok{))),}
                   \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/importFunctions.R"}\NormalTok{, }
                   \AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{), }
                   \AttributeTok{optionList=}\FunctionTok{makeOptionsList}\NormalTok{(}\AttributeTok{evalFlag=}\ConstantTok{FALSE}\NormalTok{))}
@@ -827,8 +834,8 @@ The user can use the following code.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{mkdCodeChunkTitledCommented}\NormalTok{(bioEr, }\AttributeTok{title=}\StringTok{"MA{-}Plot"}\NormalTok{, }\AttributeTok{level=}\DecValTok{2}\NormalTok{,}
-                                    \AttributeTok{code=}\StringTok{"MAedgeRMAPlotEx(degList=degList)"}\NormalTok{,}
-                                    \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/plotFunctions.R"}\NormalTok{,}
+                            \AttributeTok{code=}\StringTok{"MAedgeRMAPlotEx(degList=degList)"}\NormalTok{,}
+                            \AttributeTok{sourceFilesList=}\FunctionTok{system.file}\NormalTok{(}\StringTok{"script/plotFunctions.R"}\NormalTok{, }
                                                         \AttributeTok{package=}\StringTok{"easyreporting"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}

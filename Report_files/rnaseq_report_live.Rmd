@@ -14,6 +14,7 @@
         url: www.fakepersonalurl.com
 
     date: "`r Sys.Date()`"
+    bibfile: ref.bib
     output: distill::distill_article
 ---
 
@@ -39,7 +40,8 @@ head(geneCounts, 20)
 source("importFunctions.R")
 
 
-geneCounts <- as.matrix(importData(system.file('extdata/BMDC_counts_FeatureCounts.xlsx', package='easyreporting')))
+geneCounts <- as.matrix(importData(system.file("extdata/BMDC_counts_FeatureCounts.xlsx", 
+    package = "easyreporting")))
 head(geneCounts, 20)
 
 ```
